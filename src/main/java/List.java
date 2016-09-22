@@ -1,76 +1,82 @@
+import java.math.BigInteger;
 
-public class List<E> implements ListInterface {
+public class List<E extends Comparable> implements ListInterface<E>{
+	
+    private class Node {
 
-	@Override
-	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+        E data;
+        Node prior,
+                next;
 
-	@Override
-	public ListInterface init() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+        public Node(E d) {
+            this(d, null, null);
+        }
 
-	@Override
-	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+        public Node(E data, Node prior, Node next) {
+            this.data = data == null ? null : data;
+            this.prior = prior;
+            this.next = next;
+        }
 
-	@Override
-	public ListInterface insert(Data d) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    }
 
-	@Override
-	public Data retrieve() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public boolean isEmpty() {
+        return false;
+    }
 
-	@Override
-	public ListInterface remove() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public ListInterface<E> init() {
+        return null;
+    }
 
-	@Override
-	public boolean find(Data d) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    @Override
+    public int size() {
+        return 0;
+    }
 
-	@Override
-	public boolean goToFirst() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    @Override
+    public ListInterface<E> insert(E d) {
+        return null;
+    }
 
-	@Override
-	public boolean goToLast() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    @Override
+    public E retrieve() {
+        return null;
+    }
 
-	@Override
-	public boolean goToNext() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    @Override
+    public ListInterface<E> remove() {
+        return null;
+    }
 
-	@Override
-	public boolean goToPrevious() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    @Override
+    public boolean find(E d) {
+        return false;
+    }
 
-	@Override
-	public ListInterface clone() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public boolean goToFirst() {
+        return false;
+    }
 
+    @Override
+    public boolean goToLast() {
+        return false;
+    }
+
+    @Override
+    public boolean goToNext() {
+        return false;
+    }
+
+    @Override
+    public boolean goToPrevious() {
+        return false;
+    }
+
+    @Override
+    public ListInterface<E> clone() {
+        return null;
+    }
 }

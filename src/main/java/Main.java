@@ -1,34 +1,15 @@
-import java.util.Scanner;
-import java.math.BigInteger;
 import java.util.HashMap;
+import java.math.BigInteger;
 
 public class Main {
-	HashMap<Identifier, String> setList;
-	
-	Main() {
-		setList = new HashMap<Identifier, String>();
-	}
-	
-	public void parseInput(String input) {
-		Scanner in = new Scanner(input);
-		
-		Identifier id = new Identifier(in.next());
-		String data = in.next();
-		
-		setList.put(id, data);
-		System.out.println(setList.get(id));
-	}
-	
-	void start() {
-		Scanner in = new Scanner(System.in);
-		
-		while(in.hasNext()) {
-			String input = in.nextLine();
-			parseInput(input);
-		}
-	}
 
-	static public void main(String[] args) {
-		new Main().start();
-	}
+    private void start() {
+        // Create a scanner on System.in
+        
+        // While there is input, read line and parse it.
+    }
+
+    public static void main(String[] argv) {
+        new Main().start();
+    }
 }

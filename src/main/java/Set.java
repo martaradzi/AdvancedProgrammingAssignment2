@@ -1,10 +1,7 @@
-
-public class Set<E> extends List<E> implements SetInterface  {
-
-	@Override
-	public Object copy(Object e) {
-		// TODO Auto-generated method stub
-		return null;
+public class Set<E> extends List implements SetInterface<E> {
+	
+	public Set() {
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override

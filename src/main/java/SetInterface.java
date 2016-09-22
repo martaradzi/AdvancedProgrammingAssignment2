@@ -1,15 +1,9 @@
 /**
  * @elements Sets of the type Set
- * @structure Linear
+ * @structure None
  * @domain One list of integers
  */
 public interface SetInterface<E> {
-
-	/**
-	 * @pre -
-	 * @post A new set is returned as a copy of 'e'.
-	 */
-	E copy(E e);
 
 	/**
 	 * @pre -
@@ -20,8 +14,9 @@ public interface SetInterface<E> {
 
 	/**
 	 * @pre -
-	 * @post A new set is returned containing only elements of equal value that
-	 *       exist in both sets. The new set contains no duplicate elements.
+	 * @post A new set is returned containing only elements that exist in both
+	 *       sets and are of equal value. The new set contains no duplicate
+	 *       elements.
 	 */
 	E intersect(E e);
 
@@ -34,8 +29,8 @@ public interface SetInterface<E> {
 
 	/**
 	 * @pre -
-	 * @post A new set is returned containing only elements as a result of the
-	 *       complement of the union and intersection of the two sets.
+	 * @post A new set is returned containing only the elements resulting in the
+	 *       complement of the union and intersection of both sets.
 	 */
 	E symmetricDifference(E e);
 }

@@ -1,5 +1,5 @@
 /**
- * @elements Characters of type String
+ * @elements Characters of type char
  * @structure Linear
  * @domain One String
  */
