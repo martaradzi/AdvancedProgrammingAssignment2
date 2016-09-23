@@ -1,6 +1,7 @@
-import java.math.BigInteger;
-
 public class List<E extends Comparable> implements ListInterface<E>{
+	List<E> list;
+	Node head;
+	Node current;
 	
     private class Node {
 
@@ -19,6 +20,10 @@ public class List<E extends Comparable> implements ListInterface<E>{
         }
 
     }
+    
+    List() {
+    	
+    }
 
     @Override
     public boolean isEmpty() {
@@ -27,17 +32,32 @@ public class List<E extends Comparable> implements ListInterface<E>{
 
     @Override
     public ListInterface<E> init() {
-        return null;
+    	head = new Node(null);
+        return list;
     }
 
     @Override
     public int size() {
-        return 0;
+    	return 0;
     }
 
     @Override
     public ListInterface<E> insert(E d) {
-        return null;
+    	Node n = new Node(d);
+    	current = head;
+    	
+    	while (current.next != null) {
+    		if (find(d)) {
+    			System.out.println("FOUND");
+    			break;
+    		}
+    		current = current.next;
+    	}
+    	
+    	current = n;
+    	System.out.print(n.data + " ");
+    	
+        return list;
     }
 
     @Override
@@ -52,6 +72,13 @@ public class List<E extends Comparable> implements ListInterface<E>{
 
     @Override
     public boolean find(E d) {
+    	while (current.next != null) {
+    		if (d.compareTo(current) == 0) {
+    			return true;
+    		}
+    		
+    		current = current.next;
+    	}
         return false;
     }
 
@@ -67,7 +94,7 @@ public class List<E extends Comparable> implements ListInterface<E>{
 
     @Override
     public boolean goToNext() {
-        return false;
+		return false;
     }
 
     @Override

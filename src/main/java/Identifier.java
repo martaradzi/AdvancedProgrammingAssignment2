@@ -1,15 +1,15 @@
 
 public class Identifier implements IdentifierInterface {
 
-	String variableName;
+	String id;
 	
 	Identifier(String s) {
-		variableName = s;
+		id = s;
 	}
 	
 	@Override
-	public String getValue() {
-		return variableName;
+	public String toString() {
+		return id;
 	}
 
 }
