@@ -2,6 +2,7 @@ public class List<E extends Comparable> implements ListInterface<E>{
 	List<E> list;
 	Node head;
 	Node current;
+	int numberOfElements;
 	
     private class Node {
 
@@ -22,7 +23,7 @@ public class List<E extends Comparable> implements ListInterface<E>{
     }
     
     List() {
-    	
+    	numberOfElements = 0;
     }
 
     @Override
@@ -84,22 +85,46 @@ public class List<E extends Comparable> implements ListInterface<E>{
 
     @Override
     public boolean goToFirst() {
-        return false;
+    	if(isEmpty()){
+    		return false;
+    	}else{
+    		current = head;
+    		return true;
+    	}
     }
 
     @Override
     public boolean goToLast() {
-        return false;
+    	if(isEmpty()){
+    		return false;
+    	}else{
+    		while(current.next != null){
+    			current = current.next;
+    		}
+    		return true;
+    	}
     }
 
     @Override
     public boolean goToNext() {
-		return false;
+    	if(isEmpty() || goToLast()){
+    		return false;
+    	}else{
+    		current = current.next;
+    		return true;
+    	}
+		
     }
 
     @Override
     public boolean goToPrevious() {
-        return false;
+    	if(isEmpty() || goToFirst()){
+    		return false;
+    	}else{
+    		current = current.prior;
+    		return true;
+    	}
+        
     }
 
     @Override
