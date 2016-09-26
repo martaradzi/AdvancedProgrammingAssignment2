@@ -1,9 +1,9 @@
-/**	@elements : 	objects of type E
- *	@structure : 	linear
- *	@domain : 		The elements in the list are sorted monotonically increasing.
- *					All rows of elements of type E are valid values for a list.
- *       			For every non-empty list the reference current is pointing to an
- *					element in the list.
+/**	@elements : objects of type E
+ *	@structure : linear
+ *	@domain : 	The elements in the list are sorted monotonically increasing.
+ *				All rows of elements of type E are valid values for a list.
+ *       		For every non-empty list the reference current is pointing to an
+ *				element in the list.
  *	@constructor - List();
  *	<dl>
  *		<dt><b>PRE-conditie</b><dd>		-

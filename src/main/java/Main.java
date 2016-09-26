@@ -17,6 +17,10 @@ public class Main {
 		while (in.hasNext()) {
 			BigInteger i = in.nextBigInteger();
 			l.insert(i);
+			
+//			for (int k = 0; k < l.size(); k++) {
+//				System.out.print(l.get(i) + " ");
+//			}
 		}
 		
 		

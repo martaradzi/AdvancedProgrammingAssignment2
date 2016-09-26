@@ -1,134 +1,125 @@
-public class List<E extends Comparable> implements ListInterface<E>{
-	List<E> list;
-	Node head;
-	Node current;
-	int numberOfElements;
-	
-    private class Node {
+import java.math.BigInteger;
 
-        E data;
-        Node prior,
-                next;
+public class List<E extends Comparable> implements ListInterface<E> {
+	Node list;
 
-        public Node(E d) {
-            this(d, null, null);
-        }
+	private class Node {
 
-        public Node(E data, Node prior, Node next) {
-            this.data = data == null ? null : data;
-            this.prior = prior;
-            this.next = next;
-        }
+		E data;
+		Node prior, next;
 
-    }
-    
-    List() {
-    	numberOfElements = 0;
-    }
+		public Node(E d) {
+			this(d, null, null);
+		}
 
-    @Override
-    public boolean isEmpty() {
-        return false;
-    }
+		public Node(E data, Node prior, Node next) {
+			this.data = data == null ? null : data;
+			this.prior = prior;
+			this.next = next;
+		}
 
-    @Override
-    public ListInterface<E> init() {
-    	head = new Node(null);
-        return list;
-    }
+	}
 
-    @Override
-    public int size() {
-    	return 0;
-    }
+	List() {
 
-    @Override
-    public ListInterface<E> insert(E d) {
-    	Node n = new Node(d);
-    	current = head;
-    	
-    	while (current.next != null) {
-    		if (find(d)) {
-    			System.out.println("FOUND");
-    			break;
-    		}
-    		current = current.next;
-    	}
-    	
-    	current = n;
-    	System.out.print(n.data + " ");
-    	
-        return list;
-    }
+	}
 
-    @Override
-    public E retrieve() {
-        return null;
-    }
+	@Override
+	public boolean isEmpty() {
+		return false;
+	}
 
-    @Override
-    public ListInterface<E> remove() {
-        return null;
-    }
+	@Override
+	public ListInterface<E> init() {
+		list = null;
+		return null;
+	}
 
-    @Override
-    public boolean find(E d) {
-    	while (current.next != null) {
-    		if (d.compareTo(current) == 0) {
-    			return true;
-    		}
-    		
-    		current = current.next;
-    	}
-        return false;
-    }
+	@Override
+	public int size() {
+		int counter = 1;
+		Node n = list;
 
-    @Override
-    public boolean goToFirst() {
-    	if(isEmpty()){
-    		return false;
-    	}else{
-    		current = head;
-    		return true;
-    	}
-    }
+		if (list == null) {
+			return 0;
+		}
 
-    @Override
-    public boolean goToLast() {
-    	if(isEmpty()){
-    		return false;
-    	}else{
-    		while(current.next != null){
-    			current = current.next;
-    		}
-    		return true;
-    	}
-    }
+		while (n.next != null) {
+			n = n.next;
+			counter++;
+		}
 
-    @Override
-    public boolean goToNext() {
-    	if(isEmpty() || goToLast()){
-    		return false;
-    	}else{
-    		current = current.next;
-    		return true;
-    	}
+		return counter;
+	}
+
+	@Override
+	public ListInterface<E> insert(E d) {
+		Node n = list;
+		Node toInsert = new Node(d);
+
+		if (list == null) {
+			list = new Node(d);
+		} else {
+			while (!find(toInsert.data) && n.next != null) {
+					n = n.next;			
+			}
+			list = new Node(d, null, list);
+		}
+		System.out.println("element: " + list.data);
+		return null;
+	}
+
+	@Override
+	public E retrieve() {
+		return null;
+	}
+
+	@Override
+	public ListInterface<E> remove() {
+		return null;
+	}
+
+	@Override
+	public boolean find(E d) {
+		Node n = list;
 		
-    }
+		while (n.data != null) {
+			if (d.compareTo(n) == 0) {
+				return true;
+			}
+			n = n.next;
+		}
+		
+		return false;
+	}
 
-    @Override
-    public boolean goToPrevious() {
-    	if(isEmpty() || goToFirst()){
-    		return false;
-    	}else{
-    		current = current.prior;
-    		return true;
-    	}
-        
-    }
+	@Override
+	public boolean goToFirst() {
+		return false;
+	}
 
-    @Override
-    public ListInterface<E> clone() {
-        return null;
-    }
+	@Override
+	public boolean goToLast() {
+		return false;
+	}
+
+	@Override
+	public boolean goToNext() {
+		return false;
+	}
+
+	@Override
+	public boolean goToPrevious() {
+		return false;
+	}
+
+	@Override
+	public ListInterface<E> clone() {
+		return null;
+	}
+
+	public int get(BigInteger i) {
+
+		return 0;
+	}
 }
