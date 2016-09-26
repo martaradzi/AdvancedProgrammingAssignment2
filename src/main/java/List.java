@@ -1,7 +1,7 @@
 import java.math.BigInteger;
 
 public class List<E extends Comparable> implements ListInterface<E> {
-	Node list;
+	Node head;
 
 	private class Node {
 
@@ -26,21 +26,21 @@ public class List<E extends Comparable> implements ListInterface<E> {
 
 	@Override
 	public boolean isEmpty() {
-		return false;
+		return head == null;
 	}
 
 	@Override
 	public ListInterface<E> init() {
-		list = null;
+		head = null;
 		return null;
 	}
 
 	@Override
 	public int size() {
 		int counter = 1;
-		Node n = list;
+		Node n = head;
 
-		if (list == null) {
+		if (isEmpty()) {
 			return 0;
 		}
 
@@ -54,18 +54,20 @@ public class List<E extends Comparable> implements ListInterface<E> {
 
 	@Override
 	public ListInterface<E> insert(E d) {
-		Node n = list;
+		Node n = head;
 		Node toInsert = new Node(d);
 
-		if (list == null) {
-			list = new Node(d);
-		} else {
-			while (!find(toInsert.data) && n.next != null) {
-					n = n.next;			
+		if (isEmpty()) {
+			head = new Node(d);
+		} else if (!find(d)) {
+			while (n.next != null) {
+				n = n.next;
 			}
-			list = new Node(d, null, list);
+			n.next = new Node(toInsert.data);
 		}
-		System.out.println("element: " + list.data);
+		
+		System.out.println("element: " + n.data + " ");
+		
 		return null;
 	}
 
@@ -81,10 +83,10 @@ public class List<E extends Comparable> implements ListInterface<E> {
 
 	@Override
 	public boolean find(E d) {
-		Node n = list;
+		Node n = head;
 		
-		while (n.data != null) {
-			if (d.compareTo(n) == 0) {
+		while (n.next != null) {
+			if (d.compareTo(n.data) == 0) {
 				return true;
 			}
 			n = n.next;
@@ -111,11 +113,6 @@ public class List<E extends Comparable> implements ListInterface<E> {
 	@Override
 	public boolean goToPrevious() {
 		return false;
-	}
-
-	@Override
-	public ListInterface<E> clone() {
-		return null;
 	}
 
 	public int get(BigInteger i) {
