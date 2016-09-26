@@ -34,7 +34,7 @@ public interface SetInterface<E> {
 	
 	/**	@pre -
      *  @post - FALSE: list is not empty.
-     *  				TRUE:  list is empty.
+     *  		TRUE:  list is empty.
      **/
     boolean isEmpty();
 

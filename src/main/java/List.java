@@ -1,12 +1,14 @@
-import java.math.BigInteger;
-
-public class List<E extends Comparable> implements ListInterface<E> {
+public class List<E extends Comparable> implements ListInterface<E>{
+	List<E> list;
 	Node head;
+	Node current;
+	int numberOfElements;
 
 	private class Node {
 
 		E data;
-		Node prior, next;
+		Node prior,
+		next;
 
 		public Node(E d) {
 			this(d, null, null);
@@ -21,7 +23,7 @@ public class List<E extends Comparable> implements ListInterface<E> {
 	}
 
 	List() {
-
+		numberOfElements = 0;
 	}
 
 	@Override
@@ -31,8 +33,8 @@ public class List<E extends Comparable> implements ListInterface<E> {
 
 	@Override
 	public ListInterface<E> init() {
-		head = null;
-		return null;
+		head = new Node(null);
+		return list;
 	}
 
 	@Override
@@ -50,6 +52,7 @@ public class List<E extends Comparable> implements ListInterface<E> {
 		}
 
 		return counter;
+
 	}
 
 	@Override
@@ -65,58 +68,92 @@ public class List<E extends Comparable> implements ListInterface<E> {
 			}
 			n.next = new Node(toInsert.data);
 		}
-		
+
 		System.out.println("element: " + n.data + " ");
-		
+
 		return null;
 	}
 
 	@Override
 	public E retrieve() {
-		return null;
+		if(isEmpty()){
+			return null;
+		}
+		return current.data;
 	}
 
 	@Override
 	public ListInterface<E> remove() {
+		if(isEmpty()){
+			return null;
+		}
+		Node n = current;
+		current = null;
+		if(isEmpty()){
+			return null;
+		}
+		if(n.next == null){
+			current = n.prior;
+		}
+		current = n.next;
 		return null;
 	}
 
 	@Override
 	public boolean find(E d) {
 		Node n = head;
-		
+
 		while (n.next != null) {
 			if (d.compareTo(n.data) == 0) {
 				return true;
 			}
 			n = n.next;
 		}
-		
+
 		return false;
 	}
 
 	@Override
 	public boolean goToFirst() {
-		return false;
+		if(isEmpty()){
+			return false;
+		}else{
+			current = head;
+			return true;
+		}
 	}
 
 	@Override
 	public boolean goToLast() {
-		return false;
+		if(isEmpty()){
+			return false;
+		}else{
+			while(current.next != null){
+				current = current.next;
+			}
+			return true;
+		}
 	}
 
 	@Override
 	public boolean goToNext() {
-		return false;
+		if(isEmpty() || goToLast()){
+			return false;
+		}else{
+			current = current.next;
+			return true;
+		}
+
 	}
 
 	@Override
 	public boolean goToPrevious() {
-		return false;
-	}
+		if(isEmpty() || goToFirst()){
+			return false;
+		}else{
+			current = current.prior;
+			return true;
+		}
 
-	public int get(BigInteger i) {
-
-		return 0;
 	}
 }
