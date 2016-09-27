@@ -1,14 +1,15 @@
-public class List<E extends Comparable> implements ListInterface<E>{
+import java.math.BigInteger;
+
+public class List<E extends Comparable> implements ListInterface<E> {
 	List<E> list;
-	Node head;
 	Node current;
 	int numberOfElements;
+	BigInteger[] biggie = new BigInteger[100];
 
-	private class Node {
+	class Node {
 
 		E data;
-		Node prior,
-		next;
+		Node prior, next;
 
 		public Node(E d) {
 			this(d, null, null);
@@ -19,141 +20,123 @@ public class List<E extends Comparable> implements ListInterface<E>{
 			this.prior = prior;
 			this.next = next;
 		}
-
 	}
 
 	List() {
-		numberOfElements = 0;
+
 	}
 
 	@Override
 	public boolean isEmpty() {
-		return head == null;
+		return numberOfElements == 0;
 	}
 
 	@Override
 	public ListInterface<E> init() {
-		head = new Node(null);
-		return list;
+		current = new Node(null);
+		return null;
 	}
 
 	@Override
 	public int size() {
-		int counter = 1;
-		Node n = head;
-
-		if (isEmpty()) {
-			return 0;
-		}
-
-		while (n.next != null) {
-			n = n.next;
-			counter++;
-		}
-
-		return counter;
-
+		return numberOfElements;
 	}
 
 	@Override
 	public ListInterface<E> insert(E d) {
-		Node n = head;
-		Node toInsert = new Node(d);
+		Node n = new Node(d);
 
 		if (isEmpty()) {
-			head = new Node(d);
+			current = n;
+			biggie[numberOfElements] = (BigInteger) d;
+			numberOfElements++;
 		} else if (!find(d)) {
-			while (n.next != null) {
-				n = n.next;
-			}
-			n.next = new Node(toInsert.data);
+			n.prior = current;
+			current.next = n;
+			current = current.next;
+			biggie[numberOfElements] = (BigInteger) d;
+			numberOfElements++;
 		}
-
-		System.out.println("element: " + n.data + " ");
-
 		return null;
 	}
 
 	@Override
 	public E retrieve() {
-		if(isEmpty()){
-			return null;
-		}
 		return current.data;
 	}
 
 	@Override
 	public ListInterface<E> remove() {
-		if(isEmpty()){
-			return null;
-		}
-		Node n = current;
-		current = null;
-		if(isEmpty()){
-			return null;
-		}
-		if(n.next == null){
-			current = n.prior;
-		}
-		current = n.next;
+		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public boolean find(E d) {
-		Node n = head;
-
-		while (n.next != null) {
-			if (d.compareTo(n.data) == 0) {
-				return true;
-			}
-			n = n.next;
+		if (isEmpty()) {
+			return false;
 		}
 
+		goToFirst();
+
+		if (current.data.compareTo(d) == 0) {
+			return true;
+		}
+
+		while (current.next != null) {
+			current = current.next;
+
+			if (current.data.compareTo(d) == 0) {
+				return true;
+			} else if (current.data.compareTo(d) > 0) {
+				current = current.prior;
+				return false;
+			}
+		}
 		return false;
 	}
 
 	@Override
 	public boolean goToFirst() {
-		if(isEmpty()){
+		if (isEmpty()) {
 			return false;
-		}else{
-			current = head;
-			return true;
 		}
+
+		while (current.prior != null) {
+			current = current.prior;
+		}
+		return true;
 	}
 
 	@Override
 	public boolean goToLast() {
-		if(isEmpty()){
+		if (isEmpty()) {
 			return false;
-		}else{
-			while(current.next != null){
-				current = current.next;
-			}
-			return true;
 		}
+		
+		while (current.next != null) {
+			current = current.next;
+		}
+		return true;
 	}
 
 	@Override
 	public boolean goToNext() {
-		if(isEmpty() || goToLast()){
+		if (isEmpty()) {
 			return false;
-		}else{
+		} else if (current.next != null) {
 			current = current.next;
-			return true;
 		}
-
+		return true;
 	}
 
 	@Override
 	public boolean goToPrevious() {
-		if(isEmpty() || goToFirst()){
+		if (isEmpty()) {
 			return false;
-		}else{
+		} else if (current.prior != null) {
 			current = current.prior;
-			return true;
 		}
-
+		return true;
 	}
 }
