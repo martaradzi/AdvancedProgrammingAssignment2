@@ -11,7 +11,7 @@
  * </dl>
  **/
 
-public interface ListInterface<E extends Comparable> extends Cloneable {
+public interface ListInterface<E extends Comparable<E>> extends Cloneable {
 
     /**	@precondition -
      *  @postcondition - FALSE: list is not empty.

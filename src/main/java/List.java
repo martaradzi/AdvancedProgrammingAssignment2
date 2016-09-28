@@ -1,10 +1,6 @@
-import java.math.BigInteger;
-
-public class List<E extends Comparable> implements ListInterface<E> {
-	List<E> list;
-	Node current;
+public class List<E extends Comparable<E>> implements ListInterface<E> {
+	Node current, head, tail;
 	int numberOfElements;
-	BigInteger[] biggie = new BigInteger[100];
 
 	class Node {
 
@@ -28,13 +24,16 @@ public class List<E extends Comparable> implements ListInterface<E> {
 
 	@Override
 	public boolean isEmpty() {
-		return numberOfElements == 0;
+		return head == null;
 	}
 
 	@Override
-	public ListInterface<E> init() {
-		current = new Node(null);
-		return null;
+	public List<E> init() {
+		head = null;
+		tail = null;
+		current = null;
+		numberOfElements = 0;
+		return this;
 	}
 
 	@Override
@@ -43,32 +42,78 @@ public class List<E extends Comparable> implements ListInterface<E> {
 	}
 
 	@Override
-	public ListInterface<E> insert(E d) {
-		Node n = new Node(d);
-
+	public List<E> insert(E d) {
+		goToFirst();
+		
 		if (isEmpty()) {
-			current = n;
-			biggie[numberOfElements] = (BigInteger) d;
+			current = new Node(d);
+			head = current;
+			tail = current;
 			numberOfElements++;
-		} else if (!find(d)) {
-			n.prior = current;
-			current.next = n;
-			current = current.next;
-			biggie[numberOfElements] = (BigInteger) d;
-			numberOfElements++;
+			return this;
 		}
-		return null;
+		
+		while (current.next != null && current.data.compareTo(d) < 0) {
+			current = current.next;
+		}
+		
+		if (current.next == null && current.data.compareTo(d) < 0) {
+			tail = new Node(d, tail, null);
+			tail.prior.next = tail;
+			current = tail;
+		} else if (current.prior == null) {
+			head = new Node(d, null, head);
+			head.next.prior = head;
+			current = head;
+		} else {
+			Node newNode = new Node(d);
+			newNode.prior = current.prior;
+			newNode.next = current;
+			newNode.prior.next = newNode;
+			current.prior = newNode;
+			current = newNode;
+		}
+		
+		if (numberOfElements == 1) {
+			head.next = tail;
+			tail.prior = head;
+		}
+
+		numberOfElements++;
+		return this;
 	}
 
 	@Override
 	public E retrieve() {
+		if (isEmpty()) {
+			return null;
+		}
 		return current.data;
 	}
 
 	@Override
-	public ListInterface<E> remove() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<E> remove() {
+		if (isEmpty()) {
+			return null;
+		} else if (numberOfElements == 1) {
+			init();
+			return this;
+		}
+		
+		if (current.prior == null) {
+			head = head.next;
+			current = head;
+		} else if (current.next == null) {
+			tail = tail.prior;
+			current = tail;
+		} else {
+			current.next.prior = current.prior;
+			current.prior.next = current.next;
+			current = current.next;
+		}
+		
+		numberOfElements--;
+		return this;
 	}
 
 	@Override
@@ -101,10 +146,7 @@ public class List<E extends Comparable> implements ListInterface<E> {
 		if (isEmpty()) {
 			return false;
 		}
-
-		while (current.prior != null) {
-			current = current.prior;
-		}
+		current = head;
 		return true;
 	}
 
@@ -113,30 +155,27 @@ public class List<E extends Comparable> implements ListInterface<E> {
 		if (isEmpty()) {
 			return false;
 		}
-		
-		while (current.next != null) {
-			current = current.next;
-		}
+		current = tail;
 		return true;
 	}
 
 	@Override
 	public boolean goToNext() {
-		if (isEmpty()) {
+		if (isEmpty() || current.next == null) {
 			return false;
-		} else if (current.next != null) {
+		} else {
 			current = current.next;
+			return true;
 		}
-		return true;
 	}
 
 	@Override
 	public boolean goToPrevious() {
-		if (isEmpty()) {
+		if (isEmpty() || current.prior == null) {
 			return false;
-		} else if (current.prior != null) {
-			current = current.prior;
 		}
+		current = current.prior;
 		return true;
+
 	}
 }
