@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 /**
  * Created by Sebastian on 08/08/15.
  */
-public class ListTest {
+public class SetTest {
 
     @Before
     public void setUp() {

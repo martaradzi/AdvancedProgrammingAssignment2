@@ -19,7 +19,7 @@ public class List<E extends Comparable<E>> implements ListInterface<E> {
 	}
 
 	List() {
-
+		
 	}
 
 	@Override
@@ -57,15 +57,15 @@ public class List<E extends Comparable<E>> implements ListInterface<E> {
 			current = current.next;
 		}
 		
-		if (current.next == null && current.data.compareTo(d) < 0) {
+		if (current.next == null && current.data.compareTo(d) < 0) { 	// new tail node
 			tail = new Node(d, tail, null);
 			tail.prior.next = tail;
 			current = tail;
-		} else if (current.prior == null) {
+		} else if (current.prior == null) { 							// new head node
 			head = new Node(d, null, head);
 			head.next.prior = head;
 			current = head;
-		} else {
+		} else {														// new in-between node
 			Node newNode = new Node(d);
 			newNode.prior = current.prior;
 			newNode.next = current;
@@ -178,4 +178,5 @@ public class List<E extends Comparable<E>> implements ListInterface<E> {
 		return true;
 
 	}
+
 }

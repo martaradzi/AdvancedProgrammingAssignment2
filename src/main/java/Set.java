@@ -1,92 +1,91 @@
-public class Set<E> implements SetInterface<E> {
-	Set set;
+public class Set<E extends Comparable<E>> implements SetInterface<E> {
+	List list;
 	
-	public Set(List L) {
-		set = new Set(L);
+	Set() {
+		list = new List();
+		list.init();
 	}
 
 	@Override
-	public Object union(Object e) {
-		// TODO Auto-generated method stub
-		return null;
+	public E union(E e) {
+		Set set2 = (Set) e;
+		Set result = new Set();
+		result.list = list;
+		
+		while (!set2.list.isEmpty()) {
+			result.add((E) set2.list.retrieve());
+			set2.list.remove();
+		}
+		return (E) result;
 	}
 
 	@Override
-	public Object intersect(Object e) {
-		// TODO Auto-generated method stub
-		return null;
+	public E intersect(E e) {
+		Set result = new Set();
+		Set set2 = (Set) e;
+		
+		if (list.size() < set2.size()) {
+			
+		} else {
+			
+		}
+		return (E) result;
 	}
 
 	@Override
-	public Object complement(Object e) {
-		// TODO Auto-generated method stub
-		return null;
+	public E complement(E e) {
+		List result = list;
+		Set set2 = (Set) e;
+		
+		while (!set2.list.isEmpty() && !result.isEmpty()) {
+			if (contains((E) set2.list.retrieve())) {
+				result.remove();
+			}
+			set2.list.remove();
+		}
+		return (E) result;
 	}
 
 	@Override
-	public Object symmetricDifference(Object e) {
-		// TODO Auto-generated method stub
+	public E symmetricDifference(E e) {
+		
 		return null;
 	}
-
+	
 	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
+		return list.isEmpty();
 	}
 
 	@Override
 	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
+		return list.size();
 	}
 
 	@Override
-	public E insert(E d) {
-		// TODO Auto-generated method stub
-		return null;
+	public void add(E d) {
+		list = list.find(d) ? list : list.insert(d);
 	}
 
 	@Override
-	public E retrieve() {
-		// TODO Auto-generated method stub
-		return null;
+	public E get() {
+		return (E) list.retrieve();
 	}
 
 	@Override
-	public E remove() {
-		// TODO Auto-generated method stub
-		return null;
+	public E remove(E d) {
+		list = list.find(d) ? list.remove() : list;
+		return (E) list;
+		
 	}
 
 	@Override
-	public boolean find(E d) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean contains(E d) {
+		return list.find(d);
 	}
 
-	@Override
-	public boolean goToFirst() {
-		// TODO Auto-generated method stub
-		return false;
+	public Comparable compareTo(Set s2) {
+		return list.equals(s2);
 	}
-
-	@Override
-	public boolean goToLast() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean goToNext() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean goToPrevious() {
-		// TODO Auto-generated method stub
-		return false;
-	} 
 
 }
