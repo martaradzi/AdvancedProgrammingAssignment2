@@ -9,32 +9,26 @@ public interface SetInterface<E extends Comparable<E>> {
 	 * @post A new set is returned containing all elements of both sets.
 	 */
 	SetInterface<E> union(SetInterface<E> set);
-	
-	/**
-	 * @pre -
-	 * @post A new set is returned containing all elements of both sets.
-	 */
-	//E union(E e);
 
 	/**
 	 * @pre -
 	 * @post A new set is returned containing only elements that exist in both
 	 *       sets.
 	 */
-	E intersect(E e);
+	SetInterface<E> intersect(SetInterface<E> set);
 
 	/**
 	 * @pre -
 	 * @post A new set is returned containing elements that exist in one set and not the other.
 	 */
-	E complement(E e);
+	SetInterface<E> complement(SetInterface<E> set);
 
 	/**
 	 * @pre -
 	 * @post A new set is returned containing the elements resulting in the
 	 *       complement of the union and intersection of both sets.
 	 */
-	E symmetricDifference(E e);
+	SetInterface<E> symmetricDifference(SetInterface<E> set);
 	
 	/**	@pre -
      *  @post - FALSE: set is not empty.
@@ -73,8 +67,9 @@ public interface SetInterface<E extends Comparable<E>> {
      **/
     boolean contains(E d);
 
-    /** @pre - 
-     *	@post - A copy of the set has been returned.
-     **/
+    /**
+	 * @pre - 
+	 * @post - Returns a copy of the set.
+	 **/
 	SetInterface<E> copy();
 }
