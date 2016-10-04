@@ -4,12 +4,17 @@
  * @domain Any elements of type E
  */
 public interface SetInterface<E extends Comparable<E>> {
-
 	/**
 	 * @pre -
 	 * @post A new set is returned containing all elements of both sets.
 	 */
-	E union(E e);
+	SetInterface<E> union(SetInterface<E> set);
+	
+	/**
+	 * @pre -
+	 * @post A new set is returned containing all elements of both sets.
+	 */
+	//E union(E e);
 
 	/**
 	 * @pre -
@@ -59,7 +64,7 @@ public interface SetInterface<E extends Comparable<E>> {
      * 	@post - Element d in set-PRE is not present in set-POST.
      *  				Set-POST has been returned.
      **/
-    E remove(E d);
+    void remove(E d);
 
 
     /** @pre - 
@@ -68,4 +73,8 @@ public interface SetInterface<E extends Comparable<E>> {
      **/
     boolean contains(E d);
 
+    /** @pre - 
+     *	@post - A copy of the set has been returned.
+     **/
+	SetInterface<E> copy();
 }

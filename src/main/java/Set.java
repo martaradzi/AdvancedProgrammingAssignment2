@@ -1,56 +1,40 @@
 public class Set<E extends Comparable<E>> implements SetInterface<E> {
-	List list;
+	List<E> list;
 	
 	Set() {
-		list = new List();
+		list = new List<E>();
 		list.init();
 	}
-
+	
 	@Override
-	public E union(E e) {
-		Set set2 = (Set) e;
-		Set result = new Set();
-		result.list = list;
+	public Set<E> union(SetInterface<E> set) {
+		Set<E> set1 = this.copy();
+		Set<E> set2 = set.copy();
 		
-		while (!set2.list.isEmpty()) {
-			result.add((E) set2.list.retrieve());
-			set2.list.remove();
+		while (!set2.isEmpty()) {
+			// get a value from 'set' and add it to 'result', then remove it from 'set'.
+			set1.add(set2.get());
+			set2.remove(set2.get());
 		}
-		return (E) result;
+		return set1;
 	}
 
 	@Override
 	public E intersect(E e) {
-		Set result = new Set();
-		Set set2 = (Set) e;
-		
-		if (list.size() < set2.size()) {
-			
-		} else {
-			
-		}
-		return (E) result;
+		return null;
 	}
 
 	@Override
 	public E complement(E e) {
-		List result = list;
-		Set set2 = (Set) e;
-		
-		while (!set2.list.isEmpty() && !result.isEmpty()) {
-			if (contains((E) set2.list.retrieve())) {
-				result.remove();
-			}
-			set2.list.remove();
-		}
-		return (E) result;
+		return null;
 	}
 
 	@Override
 	public E symmetricDifference(E e) {
-		
 		return null;
 	}
+	
+	
 	
 	@Override
 	public boolean isEmpty() {
@@ -73,9 +57,8 @@ public class Set<E extends Comparable<E>> implements SetInterface<E> {
 	}
 
 	@Override
-	public E remove(E d) {
+	public void remove(E d) {
 		list = list.find(d) ? list.remove() : list;
-		return (E) list;
 		
 	}
 
@@ -84,8 +67,9 @@ public class Set<E extends Comparable<E>> implements SetInterface<E> {
 		return list.find(d);
 	}
 
-	public Comparable compareTo(Set s2) {
-		return list.equals(s2);
+	@Override
+	public Set<E> copy() {
+		// TODO Auto-generated method stub
+		return null;
 	}
-
 }

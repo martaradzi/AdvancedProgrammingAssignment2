@@ -9,32 +9,34 @@ public class Main {
 
 		// While there is input, read line and parse it.
 		
-		Set s = new Set();
-		Set s2 = new Set();
-		
 		BigInteger bi1 = BigInteger.valueOf(10);
 		BigInteger bi2 = BigInteger.valueOf(20);
 		BigInteger bi3 = BigInteger.valueOf(30);
 		
+		Set<BigInteger> s = new Set<BigInteger>();
+		Set<BigInteger> s2 = new Set<BigInteger>();
+		Set<BigInteger> s3 = new Set<BigInteger>();
+		
 		s.add(bi1);
 		s.add(bi2);
-		
-		s2.add(bi1);
-		s2.add(bi2);
 		s2.add(bi3);
-		s2.add(bi2);
 		
-		Set s3 = new Set();
+		s3 = s.union(s2);
+		
+		System.exit(0);
 		
 		
-		s3 = (Set) s.union(s3);
 		
-		Scanner in = new Scanner(System.in);
-
-		while (in.hasNext()) {
-			BigInteger i = in.nextBigInteger();
-			s.add(i);
-		}
+		
+		
+		
+		
+//		Scanner in = new Scanner(System.in);
+//
+//		while (in.hasNext()) {
+//			BigInteger i = in.nextBigInteger();
+//			s.add(i);
+//		}
 		
 	}
 
