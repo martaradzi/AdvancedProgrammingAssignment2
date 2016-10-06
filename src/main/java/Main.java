@@ -50,9 +50,6 @@ public class Main {
 
 		//DO NOTHING
 
-		//		character(input, '/');
-		//		String line = input.nextLine();
-
 	}
 
 	StringBuffer identifier(Scanner input)throws APException{
@@ -157,14 +154,12 @@ public class Main {
 		return nextChar(input);
 	}
 
-	/*
-	 * BigInteger(String val);
-	 */
+
 	BigInteger naturalNumber(Scanner input) throws APException{
 		BigInteger result;
-		if(nextCharIsDigit(input)){
-			result = BigInteger(positiveNumber(input));
-		}else if(nextCharIs(input, '0')){
+		if(nextCharIsDigit(input) && !nextCharIs(input, '0')){
+			result =  new BigInteger(positiveNumber(input));
+		}else{
 			result = BigInteger.valueOf(zero(input));
 		}	
 		return result;
