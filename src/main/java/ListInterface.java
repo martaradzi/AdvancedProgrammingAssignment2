@@ -101,6 +101,15 @@ public interface ListInterface<E extends Comparable<E>> extends Cloneable {
      */
     boolean goToPrevious();
 
+    /**
+     * @precondition -
+     * @postcondition A deep copy of the list has been returned.
+     */
+    ListInterface<E> copy();
 
-
+    /**
+	 * @pre - 
+	 * @post - Returns the list as a String.
+	 **/
+	String toString();
 }

@@ -57,21 +57,23 @@ public class List<E extends Comparable<E>> implements ListInterface<E> {
 			current = current.next;
 		}
 		
-		if (current.next == null && current.data.compareTo(d) < 0) { 	// new tail node
+		if (current.next == null && current.data.compareTo(d) < 0) { // new tail node
 			tail = new Node(d, tail, null);
 			tail.prior.next = tail;
 			current = tail;
-		} else if (current.prior == null) { 							// new head node
+		} else if (current.prior == null) { // new head node
 			head = new Node(d, null, head);
 			head.next.prior = head;
 			current = head;
-		} else {														// new in-between node
-			Node newNode = new Node(d);
-			newNode.prior = current.prior;
-			newNode.next = current;
-			newNode.prior.next = newNode;
-			current.prior = newNode;
-			current = newNode;
+		} else { // new in-between node
+			current = current.prior = current.prior.next = new Node(d, current.prior, current);
+			
+//			Node newNode = new Node(d);
+//			newNode.prior = current.prior;
+//			newNode.next = current;
+//			newNode.prior.next = newNode;
+//			current.prior = newNode;
+//			current = newNode;
 		}
 		
 		if (numberOfElements == 1) {
@@ -179,4 +181,45 @@ public class List<E extends Comparable<E>> implements ListInterface<E> {
 
 	}
 
+	@Override
+    public ListInterface<E> copy() {
+		List<E> result = new List<E>();
+		
+		goToFirst();
+		
+		for (int i = 0; i < size(); i++) {
+			result.insert(retrieve());
+			goToNext();
+		}
+		
+		
+        return result;
+    }
+	
+	@Override
+	public String toString() {
+		goToFirst();
+		
+		String result = "";
+		
+		for (int i = 0; i < size(); i++) {
+			result += retrieve() + " ";
+			goToNext();
+		}
+		
+		
+		return result;
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+

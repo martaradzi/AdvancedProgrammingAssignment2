@@ -72,4 +72,10 @@ public interface SetInterface<E extends Comparable<E>> {
 	 * @post - Returns a copy of the set.
 	 **/
 	SetInterface<E> copy();
+	
+	/**
+	 * @pre - 
+	 * @post - Returns the set as a String.
+	 **/
+	String toString();
 }
