@@ -4,6 +4,19 @@ import java.math.BigInteger;
 import java.util.regex.Pattern;
 
 public class Main {
+	
+	final static char PRINT_SIGN = '?',
+			COMMENT_SIGN = '/',
+			EQUAL_SIGN = '=',
+			SET_OPEN = '{',
+			SET_CLOSE = '}',
+			COMPLEX_FACTOR_OPEN = '(',
+			COMPLEX_FACTOR_CLOSE = ')',
+			UNION_SIGN = '+',
+			INTERSECTION_SIGN = '*',
+			COMPLEMENT_SIGN = '-',
+			SYMMETRIC_DIFFERENCE_SIGN = '|',
+			COMA_SIGN = ',';
 
 	HashMap<Identifier, Set<BigInteger>> hashMap;
 
@@ -18,9 +31,9 @@ public class Main {
 	void statement(Scanner input) throws APException {
 		if (nextCharIsLetter(input)) {
 			assignment(input);
-		} else if (nextCharIs(input, '?')) {
+		} else if (nextCharIs(input, PRINT_SIGN)) {
 			printStatement(input);
-		} else if (nextCharIs(input, '/')) {
+		} else if (nextCharIs(input, COMMENT_SIGN)) {
 			comment(input);
 		}
 	}
@@ -29,7 +42,7 @@ public class Main {
 		Identifier i = identifier(input);
 
 		character(input, ' ');
-		character(input, '=');
+		character(input, EQUAL_SIGN);
 		character(input, ' ');
 
 		Set<BigInteger> b = expression(input);
@@ -39,11 +52,10 @@ public class Main {
 	}
 
 	void printStatement(Scanner input) throws APException {
-		character(input, '?');
+		character(input, PRINT_SIGN);
 		character(input, ' ');
 		Set<BigInteger> b = expression(input);
-		
-		System.out.println(b.get());
+		System.out.println(b);
 	}
 
 	void comment(Scanner input) throws APException {
@@ -70,15 +82,15 @@ public class Main {
 
 		termOne = term(input);
 
-		while (nextCharIs(input, '+') || nextCharIs(input, '-') || nextCharIs(input, '|')) {
-			if (nextCharIs(input, '+')) {
-				character(input, '+');
+		while (nextCharIs(input, UNION_SIGN) || nextCharIs(input, COMPLEMENT_SIGN) || nextCharIs(input, SYMMETRIC_DIFFERENCE_SIGN)) {
+			if (nextCharIs(input, UNION_SIGN)) {
+				character(input, UNION_SIGN);
 				result = termOne.union(term(input));
-			} else if (nextCharIs(input, '-')) {
-				character(input, '-');
+			} else if (nextCharIs(input, COMPLEMENT_SIGN)) {
+				character(input, COMPLEMENT_SIGN);
 				result = termOne.complement(term(input));
-			} else if (nextCharIs(input, '|')) {
-				character(input, '|');
+			} else if (nextCharIs(input, SYMMETRIC_DIFFERENCE_SIGN )) {
+				character(input, SYMMETRIC_DIFFERENCE_SIGN );
 				result = termOne.symmetricDifference(term(input));
 			}
 
@@ -93,8 +105,8 @@ public class Main {
 
 		factor = factor(input);
 
-		while (nextCharIs(input, '*')) {
-			character(input, '*');
+		while (nextCharIs(input, INTERSECTION_SIGN)) {
+			character(input, INTERSECTION_SIGN);
 			result = factor.intersect(factor(input));
 			factor = result;
 		}
@@ -107,9 +119,9 @@ public class Main {
 
 		if (nextCharIsLetter(input)) {
 			result = hashMap.get(identifier(input));
-		} else if (nextCharIs(input, '(')) {
+		} else if (nextCharIs(input, COMPLEX_FACTOR_OPEN)) {
 			result = complexFactor(input);
-		} else if (nextCharIs(input, '{')) {
+		} else if (nextCharIs(input, SET_OPEN)) {
 			result = set(input);
 		}
 
@@ -119,9 +131,9 @@ public class Main {
 	Set<BigInteger> complexFactor(Scanner input) throws APException {
 		Set<BigInteger> result = new Set<>();
 
-		character(input, '(');
+		character(input, COMPLEX_FACTOR_OPEN);
 		result = (expression(input));
-		character(input, ')');
+		character(input, COMPLEX_FACTOR_CLOSE);
 
 		return result;
 	}
@@ -129,9 +141,9 @@ public class Main {
 	Set<BigInteger> set(Scanner input) throws APException {
 		Set<BigInteger> result = new Set<>();
 
-		character(input, '{');
+		character(input, SET_OPEN);
 		result = rowNaturalNumbers(input);
-		character(input, '}');
+		character(input, SET_CLOSE);
 
 		return result;
 	}
@@ -142,8 +154,8 @@ public class Main {
 		if (nextCharIsDigit(input)) {
 			result.add(naturalNumber(input));
 
-			while (nextCharIs(input, ',')) {
-				character(input, ',');
+			while (nextCharIs(input, COMA_SIGN)) {
+				character(input, COMA_SIGN);
 				result.add(naturalNumber(input));
 			}
 		}
@@ -151,21 +163,21 @@ public class Main {
 		return result;
 	}
 
-	char additiveOperator(Scanner input) throws APException {
-		if (!nextCharIs(input, (char) ('+' | '|' | '-'))) {
-			throw new APException("Expected operator +, -, or |");
-		}
+//	char additiveOperator(Scanner input) throws APException {
+//		if (!nextCharIs(input, (char) (UNION_SIGN | SYMMETRIC_DIFFERENCE_SIGN | COMPLEMENT_SIGN))) {
+//			throw new APException("Expected operator +, -, or |");
+//		}
+//
+//		return nextChar(input);
+//	}
 
-		return nextChar(input);
-	}
-
-	char multipicativeOperator(Scanner input) throws APException {
-		if (!nextCharIs(input, '*')) {
-			throw new APException("Expected operator *");
-		}
-
-		return nextChar(input);
-	}
+//	char multipicativeOperator(Scanner input) throws APException {
+//		if (!nextCharIs(input, '*')) {
+//			throw new APException("Expected operator *");
+//		}
+//
+//		return nextChar(input);
+//	}
 
 	BigInteger naturalNumber(Scanner input) throws APException {
 		BigInteger result;
