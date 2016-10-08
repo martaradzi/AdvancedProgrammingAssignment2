@@ -139,7 +139,6 @@ public class ListTest {
 
     @Test
     public void testRetrieve() {
-
         List<Letter> list = new List<>();
 
         Letter a = new Letter('a');
