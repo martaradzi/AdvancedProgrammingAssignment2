@@ -12,9 +12,7 @@ public class Main {
 	}
 
 	void program(Scanner input) throws APException {
-		while (input.hasNextLine()) {
-			statement(input);
-		}
+		statement(input);
 	}
 
 	void statement(Scanner input) throws APException {
@@ -29,20 +27,23 @@ public class Main {
 
 	void assignment(Scanner input) throws APException {
 		Identifier i = identifier(input);
-		
+
 		character(input, ' ');
 		character(input, '=');
 		character(input, ' ');
-		
+
 		Set<BigInteger> b = expression(input);
-		
+
 		hashMap.put(i, b);
-		System.out.println("debug line");
+		//System.out.println("debug line");
 	}
 
 	void printStatement(Scanner input) throws APException {
 		character(input, '?');
-		expression(input);
+		character(input, ' ');
+		Set<BigInteger> b = expression(input);
+		
+		System.out.println(b.get());
 	}
 
 	void comment(Scanner input) throws APException {
@@ -65,9 +66,8 @@ public class Main {
 	}
 
 	Set<BigInteger> expression(Scanner input) throws APException {
-		Set<BigInteger> termOne = new Set<>(), 
-				result = new Set<>();
-		
+		Set<BigInteger> termOne = new Set<>(), result = new Set<>();
+
 		termOne = term(input);
 
 		while (nextCharIs(input, '+') || nextCharIs(input, '-') || nextCharIs(input, '|')) {
@@ -77,7 +77,7 @@ public class Main {
 			} else if (nextCharIs(input, '-')) {
 				character(input, '-');
 				result = termOne.complement(term(input));
-			} else if (nextCharIs(input, '|')){
+			} else if (nextCharIs(input, '|')) {
 				character(input, '|');
 				result = termOne.symmetricDifference(term(input));
 			}
@@ -89,8 +89,7 @@ public class Main {
 	}
 
 	Set<BigInteger> term(Scanner input) throws APException {
-		Set<BigInteger> result = new Set<>(), 
-				factor = new Set<>();
+		Set<BigInteger> result = new Set<>(), factor = new Set<>();
 
 		factor = factor(input);
 
@@ -99,13 +98,13 @@ public class Main {
 			result = factor.intersect(factor(input));
 			factor = result;
 		}
-		
+
 		return factor;
 	}
 
 	Set<BigInteger> factor(Scanner input) throws APException {
 		Set<BigInteger> result = new Set<>();
-		
+
 		if (nextCharIsLetter(input)) {
 			result = hashMap.get(identifier(input));
 		} else if (nextCharIs(input, '(')) {
@@ -113,42 +112,42 @@ public class Main {
 		} else if (nextCharIs(input, '{')) {
 			result = set(input);
 		}
-		
+
 		return result;
 	}
 
 	Set<BigInteger> complexFactor(Scanner input) throws APException {
 		Set<BigInteger> result = new Set<>();
-		
+
 		character(input, '(');
 		result = (expression(input));
 		character(input, ')');
-		
+
 		return result;
 	}
 
 	Set<BigInteger> set(Scanner input) throws APException {
 		Set<BigInteger> result = new Set<>();
-		
+
 		character(input, '{');
 		result = rowNaturalNumbers(input);
 		character(input, '}');
-		
+
 		return result;
 	}
 
 	Set<BigInteger> rowNaturalNumbers(Scanner input) throws APException {
 		Set<BigInteger> result = new Set<>();
-		
+
 		if (nextCharIsDigit(input)) {
 			result.add(naturalNumber(input));
-			
+
 			while (nextCharIs(input, ',')) {
 				character(input, ',');
 				result.add(naturalNumber(input));
 			}
 		}
-		
+
 		return result;
 	}
 
@@ -156,7 +155,7 @@ public class Main {
 		if (!nextCharIs(input, (char) ('+' | '|' | '-'))) {
 			throw new APException("Expected operator +, -, or |");
 		}
-		
+
 		return nextChar(input);
 	}
 
@@ -164,29 +163,29 @@ public class Main {
 		if (!nextCharIs(input, '*')) {
 			throw new APException("Expected operator *");
 		}
-		
+
 		return nextChar(input);
 	}
 
 	BigInteger naturalNumber(Scanner input) throws APException {
 		BigInteger result;
-		
+
 		if (nextCharIsDigit(input) && !nextCharIs(input, '0')) {
 			result = new BigInteger(positiveNumber(input));
 		} else {
 			result = BigInteger.valueOf(zero(input));
 		}
-		
+
 		return result;
 	}
 
 	String positiveNumber(Scanner input) throws APException {
 		String s = "";
-		
+
 		while (nextCharIsDigit(input)) {
 			s = s + number(input);
 		}
-		
+
 		return s;
 	}
 
@@ -194,7 +193,7 @@ public class Main {
 		if (nextCharIs(input, '0')) {
 			return zero(input);
 		}
-			
+
 		return notZero(input);
 	}
 
@@ -202,7 +201,7 @@ public class Main {
 		if (!nextCharIs(input, '0')) {
 			throw new APException("Next char should be zero");
 		}
-		
+
 		return nextChar(input);
 	}
 
@@ -210,31 +209,30 @@ public class Main {
 		if (nextCharIs(input, '0')) {
 			throw new APException("Next char should not be zero");
 		}
-		
+
 		return nextChar(input);
 	}
-	
+
 	/////////////
 	boolean nextCharIsLetter(Scanner in) throws APException {
 		in.useDelimiter("");
-
 		return in.hasNext("[a-zA-Z]");
 
 	}
 
 	boolean nextCharIsDigit(Scanner in) {
 		in.useDelimiter("");
-		
+
 		return in.hasNext("[0-9]");
 	}
-	
+
 	/////////////
 	boolean nextCharIs(Scanner input, char c) {
 		input.useDelimiter("");
-		
+
 		return input.hasNext(Pattern.quote(c + ""));
 	}
-	
+
 	char letter(Scanner input) throws APException {
 		if (!nextCharIsLetter(input)) {
 			throw new APException("Next char should be a letter");
@@ -257,20 +255,17 @@ public class Main {
 		nextChar(input);
 	}
 
-	void start() {
+	void start() throws APException {
 		Scanner in = new Scanner(System.in);
 
 		while (in.hasNext()) {
-			try {
-				program(in);
-			} catch (APException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			String s = in.nextLine();
+			Scanner line = new Scanner(s);
+			program(line);
 		}
 	}
 
-	public static void main(String[] argv) {
+	public static void main(String[] argv) throws APException {
 		new Main().start();
 	}
 }
