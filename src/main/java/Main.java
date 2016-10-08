@@ -142,6 +142,7 @@ public class Main {
 		
 		if (nextCharIsDigit(input)) {
 			result.add(naturalNumber(input));
+			
 			while (nextCharIs(input, ',')) {
 				character(input, ',');
 				result.add(naturalNumber(input));
@@ -212,11 +213,13 @@ public class Main {
 		
 		return nextChar(input);
 	}
-
-	boolean nextCharIsLetter(Scanner in) {
+	
+	/////////////
+	boolean nextCharIsLetter(Scanner in) throws APException {
 		in.useDelimiter("");
-		
+
 		return in.hasNext("[a-zA-Z]");
+
 	}
 
 	boolean nextCharIsDigit(Scanner in) {
@@ -224,32 +227,33 @@ public class Main {
 		
 		return in.hasNext("[0-9]");
 	}
-
+	
+	/////////////
 	boolean nextCharIs(Scanner input, char c) {
 		input.useDelimiter("");
 		
 		return input.hasNext(Pattern.quote(c + ""));
 	}
-
+	
 	char letter(Scanner input) throws APException {
 		if (!nextCharIsLetter(input)) {
 			throw new APException("Next char should be a letter");
 		}
-		
+
 		return nextChar(input);
 	}
 
 	char nextChar(Scanner in) {
 		in.useDelimiter("");
-		
+
 		return in.next().charAt(0);
 	}
 
 	void character(Scanner input, char c) throws APException {
 		if (!nextCharIs(input, c)) {
-			throw new APException("Next char should be " + c);
+			throw new APException("Next char should be: " + c);
 		}
-		
+
 		nextChar(input);
 	}
 
