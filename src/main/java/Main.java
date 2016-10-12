@@ -47,9 +47,9 @@ public class Main {
 		character(input, PRINT_SIGN);
 		readWhiteSpaces(input);
 
-		Set<BigInteger> set = term(input);
+		Set<BigInteger> set = expression(input);
 
-		System.out.println(set.toString());
+		System.out.println("\nOUTPUT: " + set.toString() + "\n");
 
 		eoln(input);
 	}
@@ -60,6 +60,7 @@ public class Main {
 
 	Identifier identifier(Scanner input) throws APException {
 		StringBuffer sb = new StringBuffer();
+		readWhiteSpaces(input);
 		sb.append(letter(input));
 
 		while (nextCharIsLetter(input) || nextCharIsDigit(input)) {
@@ -74,9 +75,7 @@ public class Main {
 	}
 
 	Set<BigInteger> expression(Scanner input) throws APException {
-		Set<BigInteger> firstTerm = new Set<>();
-		firstTerm = term(input);
-		Set<BigInteger> result = (Set<BigInteger>) firstTerm.copy();
+		Set<BigInteger> firstTerm = term(input);
 
 		readWhiteSpaces(input);
 
@@ -87,25 +86,22 @@ public class Main {
 
 			if (operator == UNION_SIGN) {
 				readWhiteSpaces(input);
-				result = result.union(term(input));
+				firstTerm = firstTerm.union(term(input));
 			} else if (operator == COMPLEMENT_SIGN) {
 				readWhiteSpaces(input);
-				result = result.complement(term(input));
+				firstTerm = firstTerm.complement(term(input));
 			} else if (operator == SYMMETRIC_DIFFERENCE_SIGN) {
 				readWhiteSpaces(input);
-				result = result.symmetricDifference(term(input));
+				firstTerm = firstTerm.symmetricDifference(term(input));
 			}
-
-			return result;
 		}
 
 		return firstTerm;
 	}
 
 	Set<BigInteger> term(Scanner input) throws APException {
-		Set<BigInteger> factor = new Set<>();
+		Set<BigInteger> factor = factor(input);
 
-		factor = factor(input);
 		readWhiteSpaces(input);
 
 		while (nextCharIs(input, INTERSECTION_SIGN)) {
@@ -113,7 +109,6 @@ public class Main {
 			readWhiteSpaces(input);
 
 			factor = factor.intersect(factor(input));
-			//factor = result;
 		}
 
 		return factor;
@@ -125,7 +120,8 @@ public class Main {
 		readWhiteSpaces(input);
 
 		if (nextCharIsLetter(input)) {
-			result = hashMap.get(identifier(input));
+			Identifier i = identifier(input);
+			result = getSetFromHashMap(i);
 		} else if (nextCharIs(input, COMPLEX_FACTOR_OPEN)) {
 			result = complexFactor(input);
 		} else if (nextCharIs(input, SET_OPEN)) {
@@ -133,6 +129,14 @@ public class Main {
 		}
 
 		return result;
+	}
+	
+	Set<BigInteger> getSetFromHashMap(Identifier i) throws APException {
+		if (!hashMap.containsKey(i)) {
+			throw new APException("Hash map key does not exist");
+		}
+		
+		return hashMap.get(i);
 	}
 
 	Set<BigInteger> complexFactor(Scanner input) throws APException {
@@ -178,7 +182,6 @@ public class Main {
 		}
 
 		return result;
-
 	}
 
 	char additiveOperator(Scanner input) {
@@ -240,7 +243,6 @@ public class Main {
 	boolean nextCharIsLetter(Scanner in) throws APException {
 		in.useDelimiter("");
 		return in.hasNext("[a-zA-Z]");
-
 	}
 
 	boolean nextCharIsDigit(Scanner in) {
