@@ -4,19 +4,10 @@ import java.math.BigInteger;
 import java.util.regex.Pattern;
 
 public class Main {
-	
-	final static char PRINT_SIGN = '?',
-			COMMENT_SIGN = '/',
-			EQUAL_SIGN = '=',
-			SET_OPEN = '{',
-			SET_CLOSE = '}',
-			COMPLEX_FACTOR_OPEN = '(',
-			COMPLEX_FACTOR_CLOSE = ')',
-			UNION_SIGN = '+',
-			INTERSECTION_SIGN = '*',
-			COMPLEMENT_SIGN = '-',
-			SYMMETRIC_DIFFERENCE_SIGN = '|',
-			COMA_SIGN = ',';
+
+	final static char PRINT_SIGN = '?', COMMENT_SIGN = '/', EQUAL_SIGN = '=', SET_OPEN = '{', SET_CLOSE = '}',
+			COMPLEX_FACTOR_OPEN = '(', COMPLEX_FACTOR_CLOSE = ')', UNION_SIGN = '+', INTERSECTION_SIGN = '*',
+			COMPLEMENT_SIGN = '-', SYMMETRIC_DIFFERENCE_SIGN = '|', COMA_SIGN = ',';
 
 	HashMap<Identifier, Set<BigInteger>> hashMap;
 
@@ -29,6 +20,8 @@ public class Main {
 	}
 
 	void statement(Scanner input) throws APException {
+		readWhiteSpaces(input);
+
 		if (nextCharIsLetter(input)) {
 			assignment(input);
 		} else if (nextCharIs(input, PRINT_SIGN)) {
@@ -41,21 +34,24 @@ public class Main {
 	void assignment(Scanner input) throws APException {
 		Identifier i = identifier(input);
 
-		character(input, ' ');
+		readWhiteSpaces(input);
 		character(input, EQUAL_SIGN);
-		character(input, ' ');
+		readWhiteSpaces(input);
 
 		Set<BigInteger> b = expression(input);
-
 		hashMap.put(i, b);
-		//System.out.println("debug line");
+		eoln(input);
 	}
 
 	void printStatement(Scanner input) throws APException {
 		character(input, PRINT_SIGN);
-		character(input, ' ');
-		Set<BigInteger> b = expression(input);
-		System.out.println(b);
+		readWhiteSpaces(input);
+
+		Set<BigInteger> set = term(input);
+
+		System.out.println(set.toString());
+
+		eoln(input);
 	}
 
 	void comment(Scanner input) throws APException {
@@ -78,37 +74,46 @@ public class Main {
 	}
 
 	Set<BigInteger> expression(Scanner input) throws APException {
-		Set<BigInteger> termOne = new Set<>(), result = new Set<>();
+		Set<BigInteger> firstTerm = new Set<>();
+		firstTerm = term(input);
+		Set<BigInteger> result = (Set<BigInteger>) firstTerm.copy();
 
-		termOne = term(input);
+		readWhiteSpaces(input);
 
-		while (nextCharIs(input, UNION_SIGN) || nextCharIs(input, COMPLEMENT_SIGN) || nextCharIs(input, SYMMETRIC_DIFFERENCE_SIGN)) {
-			if (nextCharIs(input, UNION_SIGN)) {
-				character(input, UNION_SIGN);
-				result = termOne.union(term(input));
-			} else if (nextCharIs(input, COMPLEMENT_SIGN)) {
-				character(input, COMPLEMENT_SIGN);
-				result = termOne.complement(term(input));
-			} else if (nextCharIs(input, SYMMETRIC_DIFFERENCE_SIGN )) {
-				character(input, SYMMETRIC_DIFFERENCE_SIGN );
-				result = termOne.symmetricDifference(term(input));
+		while (nextCharIs(input, UNION_SIGN) || nextCharIs(input, COMPLEMENT_SIGN)
+				|| nextCharIs(input, SYMMETRIC_DIFFERENCE_SIGN)) {
+			char operator = additiveOperator(input);
+			readWhiteSpaces(input);
+
+			if (operator == UNION_SIGN) {
+				readWhiteSpaces(input);
+				result = result.union(term(input));
+			} else if (operator == COMPLEMENT_SIGN) {
+				readWhiteSpaces(input);
+				result = result.complement(term(input));
+			} else if (operator == SYMMETRIC_DIFFERENCE_SIGN) {
+				readWhiteSpaces(input);
+				result = result.symmetricDifference(term(input));
 			}
 
 			return result;
 		}
 
-		return termOne;
+		return firstTerm;
 	}
 
 	Set<BigInteger> term(Scanner input) throws APException {
-		Set<BigInteger> result = new Set<>(), factor = new Set<>();
+		Set<BigInteger> factor = new Set<>();
 
 		factor = factor(input);
+		readWhiteSpaces(input);
 
 		while (nextCharIs(input, INTERSECTION_SIGN)) {
 			character(input, INTERSECTION_SIGN);
-			result = factor.intersect(factor(input));
-			factor = result;
+			readWhiteSpaces(input);
+
+			factor = factor.intersect(factor(input));
+			//factor = result;
 		}
 
 		return factor;
@@ -116,6 +121,8 @@ public class Main {
 
 	Set<BigInteger> factor(Scanner input) throws APException {
 		Set<BigInteger> result = new Set<>();
+		
+		readWhiteSpaces(input);
 
 		if (nextCharIsLetter(input)) {
 			result = hashMap.get(identifier(input));
@@ -130,9 +137,12 @@ public class Main {
 
 	Set<BigInteger> complexFactor(Scanner input) throws APException {
 		Set<BigInteger> result = new Set<>();
+		
+		readWhiteSpaces(input);
 
 		character(input, COMPLEX_FACTOR_OPEN);
 		result = (expression(input));
+		readWhiteSpaces(input);
 		character(input, COMPLEX_FACTOR_CLOSE);
 
 		return result;
@@ -140,9 +150,12 @@ public class Main {
 
 	Set<BigInteger> set(Scanner input) throws APException {
 		Set<BigInteger> result = new Set<>();
+		
+		readWhiteSpaces(input);
 
 		character(input, SET_OPEN);
 		result = rowNaturalNumbers(input);
+		readWhiteSpaces(input);
 		character(input, SET_CLOSE);
 
 		return result;
@@ -150,37 +163,36 @@ public class Main {
 
 	Set<BigInteger> rowNaturalNumbers(Scanner input) throws APException {
 		Set<BigInteger> result = new Set<>();
+		
+		readWhiteSpaces(input);
 
 		if (nextCharIsDigit(input)) {
 			result.add(naturalNumber(input));
+			readWhiteSpaces(input);
 
 			while (nextCharIs(input, COMA_SIGN)) {
 				character(input, COMA_SIGN);
+				readWhiteSpaces(input);
 				result.add(naturalNumber(input));
 			}
 		}
 
 		return result;
+
 	}
 
-//	char additiveOperator(Scanner input) throws APException {
-//		if (!nextCharIs(input, (char) (UNION_SIGN | SYMMETRIC_DIFFERENCE_SIGN | COMPLEMENT_SIGN))) {
-//			throw new APException("Expected operator +, -, or |");
-//		}
-//
-//		return nextChar(input);
-//	}
+	char additiveOperator(Scanner input) {
+		return nextChar(input);
+	}
 
-//	char multipicativeOperator(Scanner input) throws APException {
-//		if (!nextCharIs(input, '*')) {
-//			throw new APException("Expected operator *");
-//		}
-//
-//		return nextChar(input);
-//	}
+	char multiplicativeOperator(Scanner input) {
+		return nextChar(input);
+	}
 
 	BigInteger naturalNumber(Scanner input) throws APException {
 		BigInteger result;
+		
+		readWhiteSpaces(input);
 
 		if (nextCharIsDigit(input) && !nextCharIs(input, '0')) {
 			result = new BigInteger(positiveNumber(input));
@@ -225,7 +237,6 @@ public class Main {
 		return nextChar(input);
 	}
 
-	/////////////
 	boolean nextCharIsLetter(Scanner in) throws APException {
 		in.useDelimiter("");
 		return in.hasNext("[a-zA-Z]");
@@ -238,7 +249,6 @@ public class Main {
 		return in.hasNext("[0-9]");
 	}
 
-	/////////////
 	boolean nextCharIs(Scanner input, char c) {
 		input.useDelimiter("");
 
@@ -265,6 +275,18 @@ public class Main {
 		}
 
 		nextChar(input);
+	}
+
+	void eoln(Scanner input) throws APException {
+		if (input.hasNext()) {
+			throw new APException("Invalid character");
+		}
+	}
+
+	void readWhiteSpaces(Scanner input) throws APException {
+		while (nextCharIs(input, ' ')) {
+			character(input, ' ');
+		}
 	}
 
 	void start() throws APException {
