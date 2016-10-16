@@ -15,8 +15,21 @@ public class Main {
 		hashMap = new HashMap<Identifier, Set<BigInteger>>();
 	}
 
-	void program(Scanner input) throws APException {
-		statement(input);
+	void program() throws APException {
+		Scanner in = new Scanner(System.in);
+		
+		while (in.hasNextLine()) {
+			try {
+				if (in.hasNextLine() || in.nextLine().equals("")) {
+					String s = in.nextLine();
+					Scanner line = new Scanner(s);
+					statement(line);
+				}
+			} catch (APException e) {
+				System.out.println(e);
+			}
+		}
+
 	}
 
 	void statement(Scanner input) throws APException {
@@ -28,6 +41,8 @@ public class Main {
 			printStatement(input);
 		} else if (nextCharIs(input, COMMENT_SIGN)) {
 			comment(input);
+		} else {
+			throw new APException("Unknown command");
 		}
 	}
 
@@ -39,8 +54,10 @@ public class Main {
 		readWhiteSpaces(input);
 
 		Set<BigInteger> b = expression(input);
-		hashMap.put(i, b);
-		eoln(input);
+
+		if (eoln(input)) {
+			hashMap.put(i, b);
+		}
 	}
 
 	void printStatement(Scanner input) throws APException {
@@ -49,19 +66,22 @@ public class Main {
 
 		Set<BigInteger> set = expression(input);
 
-		System.out.println("\nOUTPUT: " + set.toString() + "\n");
+		if (set == null) {
+			throw new APException("Hashmap key and/or value does not exist");
+		}
 
 		eoln(input);
+		System.out.println(set.toString());
 	}
 
 	void comment(Scanner input) throws APException {
-		// DO NOTHING
+		input.nextLine();
+		eoln(input);
 	}
 
 	Identifier identifier(Scanner input) throws APException {
 		StringBuffer sb = new StringBuffer();
 		readWhiteSpaces(input);
-		sb.append(letter(input));
 
 		while (nextCharIsLetter(input) || nextCharIsDigit(input)) {
 			if (nextCharIsLetter(input)) {
@@ -79,20 +99,22 @@ public class Main {
 
 		readWhiteSpaces(input);
 
-		while (nextCharIs(input, UNION_SIGN) || nextCharIs(input, COMPLEMENT_SIGN)
-				|| nextCharIs(input, SYMMETRIC_DIFFERENCE_SIGN)) {
-			char operator = additiveOperator(input);
+		while (additiveOperator(input)) {
+			char operator = nextChar(input);
+			Set<BigInteger> set2 = term(input);
 			readWhiteSpaces(input);
 
-			if (operator == UNION_SIGN) {
+			if (set2 == null) {
+				return null;
+			} else if (operator == UNION_SIGN) {
 				readWhiteSpaces(input);
-				firstTerm = firstTerm.union(term(input));
+				firstTerm = firstTerm.union(set2);
 			} else if (operator == COMPLEMENT_SIGN) {
 				readWhiteSpaces(input);
-				firstTerm = firstTerm.complement(term(input));
+				firstTerm = firstTerm.complement(set2);
 			} else if (operator == SYMMETRIC_DIFFERENCE_SIGN) {
 				readWhiteSpaces(input);
-				firstTerm = firstTerm.symmetricDifference(term(input));
+				firstTerm = firstTerm.symmetricDifference(set2);
 			}
 		}
 
@@ -104,11 +126,12 @@ public class Main {
 
 		readWhiteSpaces(input);
 
-		while (nextCharIs(input, INTERSECTION_SIGN)) {
+		while (multiplicativeOperator(input)) {
 			character(input, INTERSECTION_SIGN);
+			Set<BigInteger> set2 = factor(input);
 			readWhiteSpaces(input);
 
-			factor = factor.intersect(factor(input));
+			factor = factor.intersect(set2);
 		}
 
 		return factor;
@@ -116,7 +139,7 @@ public class Main {
 
 	Set<BigInteger> factor(Scanner input) throws APException {
 		Set<BigInteger> result = new Set<>();
-		
+
 		readWhiteSpaces(input);
 
 		if (nextCharIsLetter(input)) {
@@ -126,22 +149,24 @@ public class Main {
 			result = complexFactor(input);
 		} else if (nextCharIs(input, SET_OPEN)) {
 			result = set(input);
+		} else {
+			return null;
 		}
 
 		return result;
 	}
-	
+
 	Set<BigInteger> getSetFromHashMap(Identifier i) throws APException {
-		if (!hashMap.containsKey(i)) {
-			throw new APException("Hash map key does not exist");
+		if (!hashMap.containsKey(i) || hashMap.get(i) == null) {
+			throw new APException("Hashmap key and/or value does not exist");
 		}
-		
+
 		return hashMap.get(i);
 	}
 
 	Set<BigInteger> complexFactor(Scanner input) throws APException {
 		Set<BigInteger> result = new Set<>();
-		
+
 		readWhiteSpaces(input);
 
 		character(input, COMPLEX_FACTOR_OPEN);
@@ -154,7 +179,7 @@ public class Main {
 
 	Set<BigInteger> set(Scanner input) throws APException {
 		Set<BigInteger> result = new Set<>();
-		
+
 		readWhiteSpaces(input);
 
 		character(input, SET_OPEN);
@@ -167,7 +192,7 @@ public class Main {
 
 	Set<BigInteger> rowNaturalNumbers(Scanner input) throws APException {
 		Set<BigInteger> result = new Set<>();
-		
+
 		readWhiteSpaces(input);
 
 		if (nextCharIsDigit(input)) {
@@ -184,20 +209,21 @@ public class Main {
 		return result;
 	}
 
-	char additiveOperator(Scanner input) {
-		return nextChar(input);
+	boolean additiveOperator(Scanner input) throws APException {
+		return nextCharIs(input, UNION_SIGN) || nextCharIs(input, COMPLEMENT_SIGN)
+				|| nextCharIs(input, SYMMETRIC_DIFFERENCE_SIGN);
 	}
 
-	char multiplicativeOperator(Scanner input) {
-		return nextChar(input);
+	boolean multiplicativeOperator(Scanner input) throws APException {
+		return nextCharIs(input, INTERSECTION_SIGN);
 	}
 
 	BigInteger naturalNumber(Scanner input) throws APException {
 		BigInteger result;
-		
+
 		readWhiteSpaces(input);
 
-		if (nextCharIsDigit(input) && !nextCharIs(input, '0')) {
+		if (nextCharIsDigit(input)) {
 			result = new BigInteger(positiveNumber(input));
 		} else {
 			result = BigInteger.valueOf(zero(input));
@@ -245,13 +271,13 @@ public class Main {
 		return in.hasNext("[a-zA-Z]");
 	}
 
-	boolean nextCharIsDigit(Scanner in) {
+	boolean nextCharIsDigit(Scanner in) throws APException {
 		in.useDelimiter("");
 
 		return in.hasNext("[0-9]");
 	}
 
-	boolean nextCharIs(Scanner input, char c) {
+	boolean nextCharIs(Scanner input, char c) throws APException {
 		input.useDelimiter("");
 
 		return input.hasNext(Pattern.quote(c + ""));
@@ -265,7 +291,7 @@ public class Main {
 		return nextChar(input);
 	}
 
-	char nextChar(Scanner in) {
+	char nextChar(Scanner in) throws APException {
 		in.useDelimiter("");
 
 		return in.next().charAt(0);
@@ -279,10 +305,12 @@ public class Main {
 		nextChar(input);
 	}
 
-	void eoln(Scanner input) throws APException {
+	boolean eoln(Scanner input) throws APException {
 		if (input.hasNext()) {
-			throw new APException("Invalid character");
+			throw new APException("Invalid character detected");
 		}
+
+		return true;
 	}
 
 	void readWhiteSpaces(Scanner input) throws APException {
@@ -291,17 +319,7 @@ public class Main {
 		}
 	}
 
-	void start() throws APException {
-		Scanner in = new Scanner(System.in);
-
-		while (in.hasNext()) {
-			String s = in.nextLine();
-			Scanner line = new Scanner(s);
-			program(line);
-		}
-	}
-
 	public static void main(String[] argv) throws APException {
-		new Main().start();
+		new Main().program();
 	}
 }
