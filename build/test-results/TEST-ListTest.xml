@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ListTest" tests="11" skipped="0" failures="0" errors="0" timestamp="2016-10-17T19:57:09" hostname="s-N551JB" time="0.005">
+  <properties/>
+  <testcase name="testFind" classname="ListTest" time="0.002"/>
+  <testcase name="testInit" classname="ListTest" time="0.0"/>
+  <testcase name="testSize" classname="ListTest" time="0.0"/>
+  <testcase name="testgoToPrevious" classname="ListTest" time="0.0"/>
+  <testcase name="testRetrieve" classname="ListTest" time="0.0"/>
+  <testcase name="testInsert" classname="ListTest" time="0.0"/>
+  <testcase name="testIsEmpty" classname="ListTest" time="0.0"/>
+  <testcase name="testRemove" classname="ListTest" time="0.001"/>
+  <testcase name="testgoToLast" classname="ListTest" time="0.0"/>
+  <testcase name="testgoToNext" classname="ListTest" time="0.0"/>
+  <testcase name="testgoToFirst" classname="ListTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

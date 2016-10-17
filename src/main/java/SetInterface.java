@@ -2,6 +2,11 @@
  * @elements Sets of the type Set
  * @structure None
  * @domain Any elements of type E
+ * @constructor - List();
+ *	<dl>
+ *		<dt><b>PRE-conditie</b><dd>		-
+ *		<dt><b>POST-conditie</b><dd> 	The new Set-object is the empty set.
+ * </dl>
  */
 public interface SetInterface<E extends Comparable<E>> {
 	/**

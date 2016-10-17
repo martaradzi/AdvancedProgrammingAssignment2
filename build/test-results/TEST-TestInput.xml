@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="TestInput" tests="12" skipped="0" failures="0" errors="0" timestamp="2016-10-17T19:57:09" hostname="s-N551JB" time="0.005">
+  <properties/>
+  <testcase name="testAdd" classname="TestInput" time="0.001"/>
+  <testcase name="testGet" classname="TestInput" time="0.0"/>
+  <testcase name="testComplement" classname="TestInput" time="0.0"/>
+  <testcase name="testUnion" classname="TestInput" time="0.0"/>
+  <testcase name="testCopy" classname="TestInput" time="0.0"/>
+  <testcase name="testSize" classname="TestInput" time="0.001"/>
+  <testcase name="testRandomShit" classname="TestInput" time="0.0"/>
+  <testcase name="testSymmetricDifference" classname="TestInput" time="0.0"/>
+  <testcase name="testContains" classname="TestInput" time="0.001"/>
+  <testcase name="testIntersection" classname="TestInput" time="0.0"/>
+  <testcase name="testIsEmpty" classname="TestInput" time="0.0"/>
+  <testcase name="testRemove" classname="TestInput" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

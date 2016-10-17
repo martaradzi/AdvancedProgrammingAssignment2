@@ -17,14 +17,12 @@ public class Main {
 
 	void program() throws APException {
 		Scanner in = new Scanner(System.in);
-		
+
 		while (in.hasNextLine()) {
 			try {
-				if (in.hasNextLine() || in.nextLine().equals("")) {
-					String s = in.nextLine();
-					Scanner line = new Scanner(s);
-					statement(line);
-				}
+				String s = in.nextLine();
+				Scanner line = new Scanner(s);
+				statement(line);
 			} catch (APException e) {
 				System.out.println(e);
 			}
@@ -42,7 +40,7 @@ public class Main {
 		} else if (nextCharIs(input, COMMENT_SIGN)) {
 			comment(input);
 		} else {
-			throw new APException("Unknown command");
+			throw new APException("error no statement");
 		}
 	}
 
@@ -67,7 +65,7 @@ public class Main {
 		Set<BigInteger> set = expression(input);
 
 		if (set == null) {
-			throw new APException("Hashmap key and/or value does not exist");
+			throw new APException("error undefined variable");
 		}
 
 		eoln(input);
@@ -106,7 +104,9 @@ public class Main {
 
 			if (set2 == null) {
 				return null;
-			} else if (operator == UNION_SIGN) {
+			}
+
+			if (operator == UNION_SIGN) {
 				readWhiteSpaces(input);
 				firstTerm = firstTerm.union(set2);
 			} else if (operator == COMPLEMENT_SIGN) {
@@ -150,7 +150,7 @@ public class Main {
 		} else if (nextCharIs(input, SET_OPEN)) {
 			result = set(input);
 		} else {
-			return null;
+			throw new APException("error: incomplete statement");
 		}
 
 		return result;
@@ -158,7 +158,7 @@ public class Main {
 
 	Set<BigInteger> getSetFromHashMap(Identifier i) throws APException {
 		if (!hashMap.containsKey(i) || hashMap.get(i) == null) {
-			throw new APException("Hashmap key and/or value does not exist");
+			throw new APException("error: undefined variable");
 		}
 
 		return hashMap.get(i);
@@ -168,7 +168,6 @@ public class Main {
 		Set<BigInteger> result = new Set<>();
 
 		readWhiteSpaces(input);
-
 		character(input, COMPLEX_FACTOR_OPEN);
 		result = (expression(input));
 		readWhiteSpaces(input);
@@ -181,7 +180,6 @@ public class Main {
 		Set<BigInteger> result = new Set<>();
 
 		readWhiteSpaces(input);
-
 		character(input, SET_OPEN);
 		result = rowNaturalNumbers(input);
 		readWhiteSpaces(input);
@@ -219,17 +217,13 @@ public class Main {
 	}
 
 	BigInteger naturalNumber(Scanner input) throws APException {
-		BigInteger result;
-
 		readWhiteSpaces(input);
 
 		if (nextCharIsDigit(input)) {
-			result = new BigInteger(positiveNumber(input));
-		} else {
-			result = BigInteger.valueOf(zero(input));
+			return new BigInteger(positiveNumber(input));
 		}
 
-		return result;
+		throw new APException("error: number expected");
 	}
 
 	String positiveNumber(Scanner input) throws APException {
@@ -237,6 +231,10 @@ public class Main {
 
 		while (nextCharIsDigit(input)) {
 			s = s + number(input);
+		}
+
+		if (s.startsWith("0") && s.length() > 1) {
+			throw new APException("error: number expected");
 		}
 
 		return s;
@@ -252,7 +250,7 @@ public class Main {
 
 	char zero(Scanner input) throws APException {
 		if (!nextCharIs(input, '0')) {
-			throw new APException("Next char should be zero");
+			throw new APException("error: number expected");
 		}
 
 		return nextChar(input);
@@ -260,7 +258,7 @@ public class Main {
 
 	char notZero(Scanner input) throws APException {
 		if (nextCharIs(input, '0')) {
-			throw new APException("Next char should not be zero");
+			throw new APException("error: number expected");
 		}
 
 		return nextChar(input);
@@ -268,6 +266,7 @@ public class Main {
 
 	boolean nextCharIsLetter(Scanner in) throws APException {
 		in.useDelimiter("");
+		
 		return in.hasNext("[a-zA-Z]");
 	}
 
@@ -284,10 +283,6 @@ public class Main {
 	}
 
 	char letter(Scanner input) throws APException {
-		if (!nextCharIsLetter(input)) {
-			throw new APException("Next char should be a letter");
-		}
-
 		return nextChar(input);
 	}
 
@@ -299,7 +294,7 @@ public class Main {
 
 	void character(Scanner input, char c) throws APException {
 		if (!nextCharIs(input, c)) {
-			throw new APException("Next char should be: " + c);
+			throw new APException("error: missing '" + c + "'");
 		}
 
 		nextChar(input);
@@ -307,7 +302,7 @@ public class Main {
 
 	boolean eoln(Scanner input) throws APException {
 		if (input.hasNext()) {
-			throw new APException("Invalid character detected");
+			throw new APException("error: no end of line");
 		}
 
 		return true;

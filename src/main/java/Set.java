@@ -12,7 +12,9 @@ public class Set<E extends Comparable<E>> implements SetInterface<E> {
 		Set<E> set2 = (Set<E>) set.copy();
 		Set<E> result = new Set<E>();
 
-		// add elements from smaller set to larger set; return larger set
+		/* 
+		 * Add elements from smaller set to larger set; return larger set
+		 */
 		if (set2.size() <= set1.size()) {
 			set2.list.goToFirst();
 
@@ -22,7 +24,6 @@ public class Set<E extends Comparable<E>> implements SetInterface<E> {
 			}
 
 			result = set1;
-			
 		} else {
 			set1.list.goToFirst();
 
@@ -79,7 +80,6 @@ public class Set<E extends Comparable<E>> implements SetInterface<E> {
 	@Override
 	public SetInterface<E> copy() {
 		Set<E> result = new Set<E>();
-		
 		result.list = (List<E>) this.list.copy();
 		
 		return result;
