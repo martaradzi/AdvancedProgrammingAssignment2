@@ -21,13 +21,12 @@ public class Main {
 		while (in.hasNextLine()) {
 			try {
 				String s = in.nextLine();
-				Scanner line = new Scanner(s);
-				statement(line);
+				Scanner lineScanner = new Scanner(s);
+				statement(lineScanner);
 			} catch (APException e) {
 				System.out.println(e);
 			}
 		}
-
 	}
 
 	void statement(Scanner input) throws APException {
@@ -40,7 +39,7 @@ public class Main {
 		} else if (nextCharIs(input, COMMENT_SIGN)) {
 			comment(input);
 		} else {
-			throw new APException("error no statement");
+			throw new APException("error: no statement");
 		}
 	}
 
@@ -53,9 +52,9 @@ public class Main {
 
 		Set<BigInteger> b = expression(input);
 
-		if (eoln(input)) {
-			hashMap.put(i, b);
-		}
+		eoln(input);
+		hashMap.put(i, b);
+
 	}
 
 	void printStatement(Scanner input) throws APException {
@@ -65,7 +64,7 @@ public class Main {
 		Set<BigInteger> set = expression(input);
 
 		if (set == null) {
-			throw new APException("error undefined variable");
+			throw new APException("error: undefined variable");
 		}
 
 		eoln(input);
@@ -231,10 +230,10 @@ public class Main {
 
 		while (nextCharIsDigit(input)) {
 			s = s + number(input);
-		}
 
-		if (s.startsWith("0") && s.length() > 1) {
-			throw new APException("error: number expected");
+			if (s.startsWith("0") && s.length() > 1) {
+				throw new APException("error: number expected");
+			}
 		}
 
 		return s;
@@ -264,16 +263,16 @@ public class Main {
 		return nextChar(input);
 	}
 
-	boolean nextCharIsLetter(Scanner in) throws APException {
-		in.useDelimiter("");
-		
-		return in.hasNext("[a-zA-Z]");
+	boolean nextCharIsLetter(Scanner input) throws APException {
+		input.useDelimiter("");
+
+		return input.hasNext("[a-zA-Z]");
 	}
 
-	boolean nextCharIsDigit(Scanner in) throws APException {
-		in.useDelimiter("");
+	boolean nextCharIsDigit(Scanner input) throws APException {
+		input.useDelimiter("");
 
-		return in.hasNext("[0-9]");
+		return input.hasNext("[0-9]");
 	}
 
 	boolean nextCharIs(Scanner input, char c) throws APException {
@@ -286,10 +285,10 @@ public class Main {
 		return nextChar(input);
 	}
 
-	char nextChar(Scanner in) throws APException {
-		in.useDelimiter("");
+	char nextChar(Scanner input) throws APException {
+		input.useDelimiter("");
 
-		return in.next().charAt(0);
+		return input.next().charAt(0);
 	}
 
 	void character(Scanner input, char c) throws APException {

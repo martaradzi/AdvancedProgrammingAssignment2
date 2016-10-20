@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="SetTest" tests="12" skipped="0" failures="0" errors="0" timestamp="2016-10-17T19:57:09" hostname="s-N551JB" time="0.017">
+<testsuite name="SetTest" tests="12" skipped="0" failures="0" errors="0" timestamp="2016-10-20T13:45:39" hostname="s-N551JB" time="0.014">
   <properties/>
   <testcase name="testAdd" classname="SetTest" time="0.0"/>
   <testcase name="testGet" classname="SetTest" time="0.0"/>
   <testcase name="testComplement" classname="SetTest" time="0.0"/>
   <testcase name="testUnion" classname="SetTest" time="0.0"/>
   <testcase name="testCopy" classname="SetTest" time="0.0"/>
-  <testcase name="testSize" classname="SetTest" time="0.0"/>
-  <testcase name="testRandomShit" classname="SetTest" time="0.001"/>
+  <testcase name="testSize" classname="SetTest" time="0.001"/>
+  <testcase name="testRandomShit" classname="SetTest" time="0.0"/>
   <testcase name="testSymmetricDifference" classname="SetTest" time="0.0"/>
   <testcase name="testContains" classname="SetTest" time="0.001"/>
   <testcase name="testIntersection" classname="SetTest" time="0.0"/>
   <testcase name="testIsEmpty" classname="SetTest" time="0.0"/>
-  <testcase name="testRemove" classname="SetTest" time="0.001"/>
+  <testcase name="testRemove" classname="SetTest" time="0.0"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

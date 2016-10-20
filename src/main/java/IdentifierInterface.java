@@ -17,4 +17,17 @@ public interface IdentifierInterface {
      * @post The value associated with this identifier has been returned as a String.
      */
     String toString();
+    
+    /**
+     * @pre -
+     * @post The hashcode value has been returned.
+     */
+    int hashCode();
+    
+    /**
+     * @pre -
+     * @post TRUE: The two objects being compared are of the same type.
+     * 			FALSE: The two objects being compared are not of the same type.
+     */
+    boolean equals(Object obj);
 }

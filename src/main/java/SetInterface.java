@@ -1,5 +1,5 @@
 /**
- * @elements Sets of the type Set
+ * @elements Objects of type E
  * @structure None
  * @domain Any elements of type E
  * @constructor - List();
@@ -17,8 +17,7 @@ public interface SetInterface<E extends Comparable<E>> {
 
 	/**
 	 * @pre -
-	 * @post A new set is returned containing only elements that exist in both
-	 *       sets.
+	 * @post A new set is returned containing only the common elements of both sets.
 	 */
 	SetInterface<E> intersect(SetInterface<E> set);
 
@@ -30,8 +29,7 @@ public interface SetInterface<E extends Comparable<E>> {
 
 	/**
 	 * @pre -
-	 * @post A new set is returned containing the elements resulting in the
-	 *       complement of the union and intersection of both sets.
+	 * @post A new set is returned containing the elements that are unique to both sets.
 	 */
 	SetInterface<E> symmetricDifference(SetInterface<E> set);
 	
@@ -80,7 +78,7 @@ public interface SetInterface<E extends Comparable<E>> {
 	
 	/**
 	 * @pre - 
-	 * @post - Returns the set as a String.
+	 * @post - Returns the elements of a set as a String.
 	 **/
 	String toString();
 }

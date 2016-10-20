@@ -121,13 +121,3 @@ public class Set<E extends Comparable<E>> implements SetInterface<E> {
 		return list.toString();
 	}
 }
-
-
-
-
-
-
-
-
-
-

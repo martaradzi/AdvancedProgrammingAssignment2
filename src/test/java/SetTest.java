@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 import java.math.BigInteger;
 
 /**
- * Created by Sebastian on 08/08/15.
+ * Created by Shane.
  */
 public class SetTest {
 	Set<Integer> s1 = new Set<Integer>(), s2 = new Set<Integer>(), s3 = new Set<Integer>();

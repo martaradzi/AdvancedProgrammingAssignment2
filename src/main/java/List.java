@@ -3,7 +3,6 @@ public class List<E extends Comparable<E>> implements ListInterface<E> {
 	int numberOfElements;
 
 	class Node {
-
 		E data;
 		Node prior, next;
 
@@ -19,7 +18,7 @@ public class List<E extends Comparable<E>> implements ListInterface<E> {
 	}
 
 	List() {
-
+		init();
 	}
 
 	@Override
@@ -51,6 +50,7 @@ public class List<E extends Comparable<E>> implements ListInterface<E> {
 			head = current;
 			tail = current;
 			numberOfElements++;
+			
 			return this;
 		}
 
