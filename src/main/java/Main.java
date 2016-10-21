@@ -4,6 +4,12 @@ import java.math.BigInteger;
 import java.util.regex.Pattern;
 
 public class Main {
+	/*
+	 * Course: Advanced Programming
+	 * Assignment 2: Set Calculator
+	 * Created by: Marta Radziszewska (2575428), Shane Minnema (2572028)
+	 * Date: 21/10/2016
+	 */
 
 	final static char PRINT_SIGN = '?', COMMENT_SIGN = '/', EQUAL_SIGN = '=', SET_OPEN = '{', SET_CLOSE = '}',
 			COMPLEX_FACTOR_OPEN = '(', COMPLEX_FACTOR_CLOSE = ')', UNION_SIGN = '+', INTERSECTION_SIGN = '*',

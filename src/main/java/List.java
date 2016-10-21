@@ -18,7 +18,7 @@ public class List<E extends Comparable<E>> implements ListInterface<E> {
 	}
 
 	List() {
-		init();
+		
 	}
 
 	@Override

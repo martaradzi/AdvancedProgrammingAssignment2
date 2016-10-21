@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="TestInput" tests="12" skipped="0" failures="0" errors="0" timestamp="2016-10-20T13:45:39" hostname="s-N551JB" time="0.005">
+<testsuite name="TestInput" tests="12" skipped="0" failures="0" errors="0" timestamp="2016-10-21T12:47:52" hostname="s-N551JB" time="0.006">
   <properties/>
   <testcase name="testAdd" classname="TestInput" time="0.0"/>
-  <testcase name="testGet" classname="TestInput" time="0.0"/>
+  <testcase name="testGet" classname="TestInput" time="0.001"/>
   <testcase name="testComplement" classname="TestInput" time="0.0"/>
   <testcase name="testUnion" classname="TestInput" time="0.0"/>
   <testcase name="testCopy" classname="TestInput" time="0.0"/>
-  <testcase name="testSize" classname="TestInput" time="0.001"/>
+  <testcase name="testSize" classname="TestInput" time="0.002"/>
   <testcase name="testRandomShit" classname="TestInput" time="0.0"/>
   <testcase name="testSymmetricDifference" classname="TestInput" time="0.0"/>
   <testcase name="testContains" classname="TestInput" time="0.0"/>
   <testcase name="testIntersection" classname="TestInput" time="0.0"/>
-  <testcase name="testIsEmpty" classname="TestInput" time="0.0"/>
+  <testcase name="testIsEmpty" classname="TestInput" time="0.001"/>
   <testcase name="testRemove" classname="TestInput" time="0.0"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>

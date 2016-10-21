@@ -33,13 +33,15 @@ public interface SetInterface<E extends Comparable<E>> {
 	 */
 	SetInterface<E> symmetricDifference(SetInterface<E> set);
 	
-	/**	@pre -
+	/**
+	 * 	@pre -
      *  @post - FALSE: set is not empty.
      *  		TRUE:  set is empty.
      **/
     boolean isEmpty();
 
-    /**	@pre -
+    /**
+     * 	@pre -
      *	@post - The number of elements in the set has been returned.
      **/
     int size();
@@ -51,20 +53,23 @@ public interface SetInterface<E extends Comparable<E>> {
     void add(E d);
 
 
-    /** @pre - The set is not empty.
+    /**
+     *  @pre - The set is not empty.
      *	@post - An element from the set has been returned.
      */
     E get();
 
 
-    /** @pre - The set is not empty.
+    /**
+     *  @pre - The set is not empty.
      * 	@post - Element d in set-PRE is not present in set-POST.
      *  				Set-POST has been returned.
      **/
     void remove(E d);
 
 
-    /** @pre - 
+    /**
+     *  @pre - 
      *	@post - TRUE:  The set contains the element d.
      *     				FALSE: The set is empty or does not contain the element d.
      **/
